@@ -1,0 +1,12 @@
+{
+  "autoPin": true,
+  "pins": [
+    {
+      "package": "CSSH",
+      "reason": null,
+      "repositoryURL": "/Users/jakeheiser/Desktop/Projects/Swift/CSSH",
+      "version": "0.0.1"
+    }
+  ],
+  "version": 1
+}
