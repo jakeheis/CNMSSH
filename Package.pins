@@ -4,8 +4,8 @@
     {
       "package": "CSSH",
       "reason": null,
-      "repositoryURL": "/Users/jakeheiser/Desktop/Projects/Swift/CSSH",
-      "version": "0.0.1"
+      "repositoryURL": "https://github.com/jakeheis/CSSH",
+      "version": "1.0.0"
     }
   ],
   "version": 1
