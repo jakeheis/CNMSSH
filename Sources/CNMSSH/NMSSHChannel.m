@@ -103,11 +103,13 @@
     return YES;
 }
 
-- (void)closeChannel {
+- (int)closeChannel {
     // Set blocking mode
     if (self.session.rawSession) {
         libssh2_session_set_blocking(self.session.rawSession, 1);
     }
+    
+    int status = 0;
 
     if (self.channel) {
         int rc;
@@ -117,11 +119,15 @@
         if (rc == 0) {
             libssh2_channel_wait_closed(self.channel);
         }
+        
+        status = libssh2_channel_get_exit_status(self.channel);
 
         libssh2_channel_free(self.channel);
         [self setType:NMSSHChannelTypeClosed];
         [self setChannel:NULL];
     }
+    
+    return status;
 }
 
 - (BOOL)sendEOF {
@@ -173,6 +179,12 @@
 
 - (NSString *)execute:(NSString *)command error:(NSError *__autoreleasing *)error {
     return [self execute:command error:error timeout:@0];
+}
+
+- (NSArray *)executeSwift:(NSString *)command {
+    NSError *error = nil;
+    NSString *output = [self execute:command error:&error timeout:@0];
+    return @[output, error ?: [NSNull null]];
 }
 
 - (NSString *)execute:(NSString *)command error:(NSError *__autoreleasing *)error timeout:(NSNumber *)timeout {
@@ -253,7 +265,12 @@
                 }
 
                 [self setLastResponse:[response copy]];
-                [self closeChannel];
+                int status = [self closeChannel];
+                if (status && error) {
+                    *error = [NSError errorWithDomain:@"NMSSH" 
+                                                 code:NMSSHChannelExecutionError
+                                             userInfo:nil];
+                }
 
                 return self.lastResponse;
             }
