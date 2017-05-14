@@ -94,6 +94,8 @@ typedef NS_ENUM(NSInteger, NMSSHChannelType)  {
  */
 - (NSString *)execute:(NSString *)command error:(NSError **)error;
 
+- (NSArray *)executeSwift:(NSString *)command;
+
 /**
  Execute a shell command on the server with a given timeout.
 
