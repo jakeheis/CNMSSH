@@ -1,4 +1,4 @@
-// swift-tools-version:3.1
+// swift-tools-version:5.6
 
 import PackageDescription
 
@@ -7,6 +7,6 @@ import PackageDescription
 let package = Package(
     name: "CNMSSH",
     dependencies: [
-        .Package(url: "https://github.com/jakeheis/CSSH", majorVersion: 1)
+        .package(url: "https://github.com/jakeheis/CSSH", .upToNextMajor(from: "1.0.0"))
     ]
 )
